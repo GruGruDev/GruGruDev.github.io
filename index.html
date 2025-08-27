@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bug — Cybersecurity & IT Systems</title>
+  <meta name="description" content="Portfolio của Bug — An ninh mạng, Hệ thống IT, DevOps & Automation." />
+  <meta property="og:title" content="Bug — Cybersecurity & IT Systems" />
+  <meta property="og:description" content="Portfolio chuyên nghiệp của Bug — An ninh mạng & IT Systems." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#101832; --text:#e5e7eb; --muted:#9aa4b2;
+      --brand:#60a5fa; --brand-2:#22d3ee; --accent:#a78bfa; --ok:#34d399;
+      --border:rgba(255,255,255,.08); --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
+      --sans: Inter, ui-sans-serif, system-ui;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;background:var(--bg)}
+    .wrap{max-width:1100px;margin:0 auto;padding:28px}
+    header{position:sticky;top:0;backdrop-filter:saturate(1.2) blur(10px);background:rgba(11,16,32,.85);border-bottom:1px solid var(--border);z-index:50;animation:slideDown .7s ease}
+    nav{display:flex;gap:14px;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:10px 28px}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:700}
+    .brand .logo{width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 6px 16px rgba(34,211,238,.25);animation:rotate 8s linear infinite}
+    .links a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:10px;border:1px solid transparent;opacity:0;animation:fadeInUp .7s .2s forwards}
+    .links a:hover{color:var(--text);border-color:var(--border);background:rgba(255,255,255,.05);transform:scale(1.05)}
+    #bg-canvas{position:fixed;inset:0;z-index:-2}
+    .blob{position:fixed;filter:blur(60px);opacity:.4;z-index:-1;animation:float 18s ease-in-out infinite}
+    .blob.a{width:520px;height:520px;left:-120px;top:-120px;background:radial-gradient(closest-side,var(--brand),transparent)}
+    .blob.b{width:420px;height:420px;right:-80px;top:10vh;background:radial-gradient(closest-side,var(--accent),transparent);animation-duration:22s}
+    .blob.c{width:480px;height:480px;left:20vw;bottom:-160px;background:radial-gradient(closest-side,var(--brand-2),transparent);animation-duration:26s}
+    .hero{display:grid;gap:28px;align-items:center;padding:70px 0}
+    .card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;opacity:0;transform:translateY(30px)}
+    .card.visible{opacity:1;transform:translateY(0);transition:all .8s ease}
+    h1{font-size:44px;line-height:1.2;margin:0 0 10px}
+    .grad{background:linear-gradient(90deg,var(--brand),var(--brand-2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+    .subtitle{color:var(--muted);max-width:60ch}
+    .badges{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+    .badge{border:1px solid var(--border);padding:6px 10px;border-radius:999px;font:600 13px/1 var(--sans);background:rgba(255,255,255,.06);display:inline-block;opacity:0;animation:pop .5s ease forwards}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .btn{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--border);background:rgba(255,255,255,.05);padding:10px 14px;border-radius:12px;color:var(--text);text-decoration:none;opacity:0;animation:fadeIn .8s ease forwards}
+    .btn:hover{transform:scale(1.06) translateY(-1px)}
+    .section-title{display:flex;align-items:center;gap:10px;margin:0 0 14px;opacity:0;animation:fadeIn .8s ease forwards}
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--brand)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .tile{padding:18px;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.04);transform:perspective(800px) rotateX(0) rotateY(0)}
+    .tile:hover{transform:perspective(800px) rotateX(3deg) rotateY(-3deg)}
+    .projects .project{padding:16px;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.04)}
+    .project h3{margin:0 0 6px}
+    .project .meta{display:flex;gap:8px;flex-wrap:wrap}
+    footer{color:var(--muted);border-top:1px solid var(--border);margin-top:24px;padding:24px 0;text-align:center}
+    @media (max-width: 900px){.grid{grid-template-columns:1fr}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+    @keyframes shine{0%{background-position:0%}100%{background-position:200%}}
+    @keyframes pop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+    @keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+    @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px)}}
+    #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0;z-index:60}
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+  <canvas id="bg-canvas"></canvas>
+  <div class="blob a"></div><div class="blob b"></div><div class="blob c"></div>
+  <header>
+    <nav>
+      <div class="brand"><div class="logo">🔐</div><span>Bug · Portfolio</span></div>
+      <div class="links">
+        <a href="#about">About</a>
+        <a href="#highlights">Highlights</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+  <main class="wrap">
+    <section class="hero" id="about">
+      <div class="card visible">
+        <h1>Bug — <span class="grad">Cybersecurity & IT Systems</span></h1>
+        <p class="subtitle">Chuyên An ninh mạng, Quản trị Hệ thống, DevOps & Automation. Xây dựng hạ tầng <strong>an toàn — ổn định — mở rộng</strong>, biến quy trình phức tạp thành trải nghiệm gọn nhẹ.</p>
+        <div class="badges">
+          <span class="badge">Cybersecurity</span>
+          <span class="badge">System Admin</span>
+          <span class="badge">DevOps</span>
+          <span class="badge">Automation</span>
+          <span class="badge">Networking</span>
+        </div>
+        <div class="cta">
+          <a class="btn" href="#projects">🚀 Xem Projects</a>
+          <a class="btn" href="#contact">💬 Liên hệ</a>
+        </div>
+      </div>
+    </section>
+    <section id="highlights" class="card">
+      <div class="section-title"><span class="dot"></span><h2>Highlights</h2></div>
+      <div class="grid">
+        <div class="tile"><strong>3 servers</strong><br/>2 vật lý + 1 VPS, vận hành 24/7, backup đa tầng</div>
+        <div class="tile"><strong>20TB NAS</strong><br/>Phân quyền phòng ban, VPN từ xa</div>
+        <div class="tile"><strong>Automation</strong><br/>Bot báo cáo Telegram chạy systemd</div>
+      </div>
+    </section>
+    <section id="skills" class="card">
+      <div class="section-title"><span class="dot"></span><h2>Kỹ năng chính</h2></div>
+      <div class="grid">
+        <div class="tile"><h3>Mạng & Bảo mật</h3><p>MikroTik, VLAN, VPN, firewall policies, baseline hardening.</p></div>
+        <div class="tile"><h3>Hệ thống</h3><p>Linux/Windows admin, NAS, backup chiến lược, logging & monitoring.</p></div>
+        <div class="tile"><h3>DevOps & Tự động hoá</h3><p>Docker, CI/CD nhỏ, script vận hành, bot báo cáo.</p></div>
+      </div>
+    </section>
+    <section id="projects" class="card projects">
+      <div class="section-title"><span class="dot"></span><h2>Projects</h2></div>
+      <div id="projectsGrid" class="grid"></div>
+    </section>
+    <section id="contact" class="card">
+      <div class="section-title"><span class="dot"></span><h2>Liên hệ</h2></div>
+      <p>📧 Email: <a href="mailto:nguyentritai210804@gmail.com">nguyentritai210804@gmail.com</a></p>
+      <p>🐙 GitHub: <a href="https://github.com/GruGruDe" target="_blank" rel="noopener">github.com/GruGruDe</a></p>
+      <p>💼 LinkedIn: <a href="https://www.linkedin.com/in/nguyentritai2108/" target="_blank" rel="noopener">linkedin.com/in/nguyentritai2108</a></p>
+    </section>
+    <footer>
+      © <span id="year"></span> Bug — Cybersecurity & IT Systems. Made with 💙
+    </footer>
+  </main>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const progress = document.getElementById('progress');
+    window.addEventListener('scroll',()=>{
+      const s = document.documentElement.scrollTop;
+      const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      progress.style.width = (s/h*100)+'%';
+    });
+    const cards = document.querySelectorAll('.card');
+    const io = new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:.2});
+    cards.forEach(c=> io.observe(c));
+    const projectsData = [
+      {title:'Internal Messenger (Prototype)', desc:'Ứng dụng nhắn tin nội bộ, ~70GB/tháng, backup định kỳ.', tags:['Node.js','PostgreSQL','Docker'], link:'#', code:'#'},
+      {title:'Revenue Bot', desc:'Bot báo cáo Telegram chạy systemd, đáng tin cậy.', tags:['Python','Systemd','CI/CD'], link:'#', code:'#'},
+      {title:'NAS for SME', desc:'NAS 20TB, VPN từ xa, phân quyền theo phòng ban.', tags:['Synology','VPN','ACL'], link:'#', code:'#'}
+    ];
+    const grid = document.getElementById('projectsGrid');
+    projectsData.forEach(p=>{
+      const el = document.createElement('article');
+      el.className='project';
+      el.innerHTML=`
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <div class="meta">${p.tags.map(t=>`<span class='badge' style='opacity:1'>${t}</span>`).join('')}</div>
+        <div class="cta" style="margin-top:8px">
+          ${p.link && p.link !== '#' ? `<a class='btn' href='${p.link}' target='_blank' rel='noopener' style='opacity:1'>🌐 Live</a>`:''}
+          ${p.code && p.code !== '#' ? `<a class='btn' href='${p.code}' target='_blank' rel='noopener' style='opacity:1'>🧑‍💻 Code</a>`:''}
+        </div>`;
+      grid.appendChild(el);
+    });
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let w,h,particles=[]; const COUNT = 60;
+    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+    window.addEventListener('resize',resize); resize();
+    function rand(a,b){return Math.random()*(b-a)+a}
+    for(let i=0;i<COUNT;i++){ particles.push({x:rand(0,w), y:rand(0,h), vx:rand(-.3,.3), vy:rand(-.3,.3), r:rand(0.6,1.8)}); }
+    function step(){ ctx.clearRect(0,0,w,h); ctx.globalAlpha=0.6; ctx.fillStyle='#7dd3fc'; particles.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>w) p.vx*=-1; if(p.y<0||p.y>h) p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }); ctx.globalAlpha=0.08; ctx.strokeStyle='#a78bfa'; for(let i=0;i<COUNT;i++){ for(let j=i+1;j<COUNT;j++){ const a=particles[i], b=particles[j]; const dx=a.x-b.x, dy=a.y-b.y; const d=Math.hypot(dx,dy); if(d<110){ ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); } } } requestAnimationFrame(step);} if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){ step(); }
+  </script>
+</body>
+</html>
