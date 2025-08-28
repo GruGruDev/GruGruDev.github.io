@@ -18,6 +18,7 @@
     }
     *{box-sizing:border-box}
     html,body{height:100%}
+    html{scroll-behavior:smooth}
     body{margin:0;color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;background:var(--bg)}
     .wrap{max-width:1100px;margin:0 auto;padding:28px}
     header{position:sticky;top:0;backdrop-filter:saturate(1.2) blur(10px);background:rgba(11,16,32,.85);border-bottom:1px solid var(--border);z-index:50;animation:slideDown .7s ease}
@@ -60,6 +61,13 @@
     @keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
     @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px)}}
     #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0;z-index:60}
+    /* Floating scroll-to-top with radial progress */
+    #toTop{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.06);display:grid;place-items:center;color:var(--text);opacity:0;pointer-events:none;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+    #toTop.show{opacity:1;pointer-events:auto}
+    #toTop::before{content:"";position:absolute;inset:-2px;border-radius:inherit;background:conic-gradient(var(--brand) 0deg, var(--accent) 0deg, rgba(255,255,255,.08) 0deg)}
+    #toTop > span{position:relative;z-index:2;font-weight:700}
+    .links a.active{color:var(--text);border-color:var(--border);background:rgba(255,255,255,.06)}
+    .tile:hover{box-shadow:0 12px 28px rgba(0,0,0,.25)}
     /* Light theme overrides */
     [data-theme="light"]{--bg:#f7fafc;--panel:#ffffff;--text:#0b1020;--muted:#4a5568;--border:rgba(0,0,0,.08)}
     [data-theme="light"] .badge{background:rgba(0,0,0,.06)}
@@ -71,6 +79,7 @@
   <div id="progress"></div>
   <canvas id="bg-canvas"></canvas>
   <div class="blob a"></div><div class="blob b"></div><div class="blob c"></div>
+  <button id="toTop" aria-label="Back to top"><span>↑</span></button>
   <header>
     <nav>
       <div class="brand"><div class="logo">🔐</div><span>Bug · Portfolio</span></div>
@@ -99,7 +108,7 @@
         <div class="cta">
           <a class="btn" href="#projects">🚀 Xem Projects</a>
           <a class="btn" href="#timeline">🕘 Timeline</a>
-          <a class="btn" href="cv.pdf" download>⬇️ Download CV OLD 2024(PDF)</a>
+          <a class="btn" href="cv.pdf" download>⬇️ Download CV (PDF)</a>
         </div>
       </div>
     </section>
@@ -132,7 +141,7 @@
     <section id="contact" class="card">
       <div class="section-title"><span class="dot"></span><h2>Liên hệ</h2></div>
       <p>📧 Email: <a href="mailto:nguyentritai210804@gmail.com">nguyentritai210804@gmail.com</a></p>
-      <p>🐙 GitHub: <a href="https://github.com/GruGruDe" target="_blank" rel="noopener">github.com/GruGruDev</a></p>
+      <p>🐙 GitHub: <a href="https://github.com/GruGruDe" target="_blank" rel="noopener">github.com/GruGruDe</a></p>
       <p>💼 LinkedIn: <a href="https://www.linkedin.com/in/nguyentritai2108/" target="_blank" rel="noopener">linkedin.com/in/nguyentritai2108</a></p>
     </section>
     <footer>
@@ -196,6 +205,63 @@
     else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){ root.setAttribute('data-theme','light'); }
     const toggleBtn = document.getElementById('themeToggle');
     if(toggleBtn){ toggleBtn.addEventListener('click',()=>{ const current = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; root.setAttribute('data-theme', current); localStorage.setItem('theme', current); }); }
+    // --- Enhanced UI Effects ---
+    // Active nav + radial progress + back-to-top
+    const sections = ['about','highlights','skills','timeline','projects','contact'];
+    const navLinks = [...document.querySelectorAll('.links a')].filter(a=>a.getAttribute('href').startsWith('#'));
+    const toTop = document.getElementById('toTop');
+    const updateProgress = ()=>{
+      const s = document.documentElement.scrollTop;
+      const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const pct = (s/h*100); progress.style.width = pct+'%';
+      const deg = pct*3.6; toTop.style.setProperty('--deg', deg);
+      toTop.style.setProperty('--pct', pct);
+      toTop.style.setProperty('--bg', `conic-gradient(var(--brand) ${deg}deg, rgba(255,255,255,.08) ${deg}deg)`);
+      toTop.style.setProperty('--shadow', pct>2 ? 'show' : '');
+      if(s>200) toTop.classList.add('show'); else toTop.classList.remove('show');
+      toTop.style.setProperty('--deg', deg);
+      toTop.style.setProperty('--pct', pct);
+      toTop.style.setProperty('--bg', `conic-gradient(var(--brand) ${deg}deg, rgba(255,255,255,.08) ${deg}deg)`);
+      toTop.style.background = 'rgba(255,255,255,.06)';
+      toTop.style.setProperty('--progress', pct);
+      toTop.style.setProperty('--angle', deg+'deg');
+      toTop.style.setProperty('--borderCol', 'var(--border)');
+      toTop.style.setProperty('--brand', getComputedStyle(document.documentElement).getPropertyValue('--brand'));
+      toTop.style.setProperty('--accent', getComputedStyle(document.documentElement).getPropertyValue('--accent'));
+      toTop.style.setProperty('--conic', `conic-gradient(var(--brand) ${deg}deg, var(--accent) ${deg}deg)`);
+      toTop.style.setProperty('--bg', `conic-gradient(var(--brand) ${deg}deg, var(--accent) ${deg}deg, rgba(255,255,255,.08) ${deg}deg)`);
+    };
+    window.addEventListener('scroll', updateProgress, {passive:true}); updateProgress();
+    toTop?.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+    const so = new IntersectionObserver(ents=>{
+      ents.forEach(e=>{
+        if(e.isIntersecting){
+          const id = '#'+e.target.id;
+          navLinks.forEach(a=> a.classList.toggle('active', a.getAttribute('href')===id));
+        }
+      });
+    },{threshold:0.5});
+    sections.forEach(id=>{ const el=document.getElementById(id); if(el) so.observe(el); });
+
+    // Parallax blobs follow cursor (subtle)
+    const blobs = document.querySelectorAll('.blob');
+    window.addEventListener('mousemove', (e)=>{
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      blobs.forEach((b,i)=> b.style.transform = `translate(${x*(i+1)/6}px, ${y*(i+1)/6}px)`);
+    });
+
+    // Magnetic buttons
+    document.querySelectorAll('.btn').forEach(btn=>{
+      btn.addEventListener('mousemove', e=>{
+        const r = btn.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width/2);
+        const dy = e.clientY - (r.top + r.height/2);
+        btn.style.transform = `translate(${dx*0.03}px, ${dy*0.03}px) scale(1.06)`;
+      });
+      btn.addEventListener('mouseleave', ()=> btn.style.transform='translate(0,0)');
+    });
   </script>
 </body>
 </html>
