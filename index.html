@@ -60,6 +60,11 @@
     @keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
     @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px)}}
     #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0;z-index:60}
+    /* Light theme overrides */
+    [data-theme="light"]{--bg:#f7fafc;--panel:#ffffff;--text:#0b1020;--muted:#4a5568;--border:rgba(0,0,0,.08)}
+    [data-theme="light"] .badge{background:rgba(0,0,0,.06)}
+    [data-theme="light"] .tile{background:rgba(0,0,0,.04)}
+    [data-theme="light"] .projects .project{background:rgba(0,0,0,.04)}
   </style>
 </head>
 <body>
@@ -70,6 +75,7 @@
     <nav>
       <div class="brand"><div class="logo">🔐</div><span>Bug · Portfolio</span></div>
       <div class="links">
+        <button id="themeToggle" class="btn" style="margin-right:8px;opacity:1">🌓 Theme</button>
         <a href="#about">About</a>
         <a href="#highlights">Highlights</a>
         <a href="#skills">Skills</a>
@@ -92,7 +98,8 @@
         </div>
         <div class="cta">
           <a class="btn" href="#projects">🚀 Xem Projects</a>
-          <a class="btn" href="#contact">💬 Liên hệ</a>
+          <a class="btn" href="#timeline">🕘 Timeline</a>
+          <a class="btn" href="cv.pdf" download>⬇️ Download CV (PDF)</a>
         </div>
       </div>
     </section>
@@ -112,6 +119,12 @@
         <div class="tile"><h3>DevOps & Tự động hoá</h3><p>Docker, CI/CD nhỏ, script vận hành, bot báo cáo.</p></div>
       </div>
     </section>
+
+    <section id="timeline" class="card">
+      <div class="section-title"><span class="dot"></span><h2>Timeline Career</h2></div>
+      <ol id="tl" style="list-style:none;padding:0;margin:0;display:grid;gap:12px"></ol>
+    </section>
+
     <section id="projects" class="card projects">
       <div class="section-title"><span class="dot"></span><h2>Projects</h2></div>
       <div id="projectsGrid" class="grid"></div>
@@ -119,7 +132,7 @@
     <section id="contact" class="card">
       <div class="section-title"><span class="dot"></span><h2>Liên hệ</h2></div>
       <p>📧 Email: <a href="mailto:nguyentritai210804@gmail.com">nguyentritai210804@gmail.com</a></p>
-      <p>🐙 GitHub: <a href="https://github.com/GruGruDe" target="_blank" rel="noopener">github.com/GruGruDev</a></p>
+      <p>🐙 GitHub: <a href="https://github.com/GruGruDe" target="_blank" rel="noopener">github.com/GruGruDe</a></p>
       <p>💼 LinkedIn: <a href="https://www.linkedin.com/in/nguyentritai2108/" target="_blank" rel="noopener">linkedin.com/in/nguyentritai2108</a></p>
     </section>
     <footer>
@@ -164,6 +177,25 @@
     function rand(a,b){return Math.random()*(b-a)+a}
     for(let i=0;i<COUNT;i++){ particles.push({x:rand(0,w), y:rand(0,h), vx:rand(-.3,.3), vy:rand(-.3,.3), r:rand(0.6,1.8)}); }
     function step(){ ctx.clearRect(0,0,w,h); ctx.globalAlpha=0.6; ctx.fillStyle='#7dd3fc'; particles.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>w) p.vx*=-1; if(p.y<0||p.y>h) p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }); ctx.globalAlpha=0.08; ctx.strokeStyle='#a78bfa'; for(let i=0;i<COUNT;i++){ for(let j=i+1;j<COUNT;j++){ const a=particles[i], b=particles[j]; const dx=a.x-b.x, dy=a.y-b.y; const d=Math.hypot(dx,dy); if(d<110){ ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); } } } requestAnimationFrame(step);} if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){ step(); }
+    // ===== Timeline Career (2024 → nay) =====
+    const timeline = [
+      { when: "09/2024 → nay", title: "Website Game (FE/BE)", note: "Auth JWT, bcrypt, ReactJS + Node/Express, MySQL" },
+      { when: "02/2024 → 05/2024", title: "Website Fashion", note: "HTML/CSS/JS, React/Next, Vercel hosting" },
+      { when: "2024 → nay", title: "Tâm Luxury — An ninh mạng", note: "Hạ tầng multi-ISP, baseline, vận hành nội bộ" },
+      { when: "2025", title: "Automation Revenue Bot", note: "Bot Telegram chạy systemd, báo cáo định kỳ" },
+      { when: "2025", title: "NAS 20TB (SME)", note: "VPN từ xa, phân quyền ACL, backup chiến lược" },
+      { when: "Hiện tại", title: "Quản lý 3 servers", note: "2 vật lý + 1 VPS, monitoring & tối ưu" },
+      { when: "2019 → 2024", title: "Dalat College — CNTT (GPA 3.7/4)", note: "Tốt nghiệp & thực hành dự án" }
+    ];
+    const tl = document.getElementById('tl');
+    if(tl){ timeline.forEach((i,idx)=>{ const li = document.createElement('li'); li.style.cssText = "border:1px solid var(--border);border-radius:14px;padding:14px;background:rgba(255,255,255,.04);position:relative;overflow:hidden"; li.innerHTML = `<div style=\"display:flex;gap:12px;align-items:flex-start\"><div style=\"min-width:120px;color:var(--muted);font-weight:600\">${i.when}</div><div><div style=\"font-weight:700\">${i.title}</div><div style=\"opacity:.9\">${i.note}</div></div></div>`; li.style.opacity=0; li.style.transform="translateY(10px)"; setTimeout(()=>{ li.style.transition="all .6s ease"; li.style.opacity=1; li.style.transform="translateY(0)"; }, 80*idx); tl.appendChild(li); }); }
+
+    // Theme toggle
+    const root = document.documentElement; const saved = localStorage.getItem('theme');
+    if(saved){ root.setAttribute('data-theme', saved); }
+    else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){ root.setAttribute('data-theme','light'); }
+    const toggleBtn = document.getElementById('themeToggle');
+    if(toggleBtn){ toggleBtn.addEventListener('click',()=>{ const current = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; root.setAttribute('data-theme', current); localStorage.setItem('theme', current); }); }
   </script>
 </body>
 </html>
